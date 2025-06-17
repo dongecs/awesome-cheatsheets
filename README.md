@@ -25,6 +25,7 @@
 - [VimScript](languages/vimscript.md)
 - [Python](languages/python.md)
 - [Lua](languages/lua.lua)
+- [Rust](languages/rust.rs)
 
 ### :wrench:开发工具
 
