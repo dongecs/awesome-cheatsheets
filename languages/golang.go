@@ -7,25 +7,46 @@
 
 
  /******************************************************************************
-  * Go 编译器命令
+  * Go command
   *****************************************************************************/
-go command [arguments]                              // go 命令 [参数]
-go build                                            // 编译包和依赖包
-go clean                                            // 移除对象和缓存文件
-go doc                                              // 显示包的文档
-go env                                              // 打印go的环境变量信息
-go bug                                              // 报告bug
-go fix                                              // 更新包使用新的api
-go fmt                                              // 格式规范化代码
-go generate                                         // 通过处理资源生成go文件
-go get                                              // 下载并安装包及其依赖
-go install                                          // 编译和安装包及其依赖
-go list                                             // 列出所有包
-go run                                              // 编译和运行go程序
-go test                                             // 测试
-go tool                                             // 运行给定的go工具
-go version                                          // 显示go当前版本
-go vet                                              // 发现代码中可能的错误
+运行和构建
+go run main.go	运行单个文件（适合快速测试）
+go run .	运行当前模块（包含多个文件）
+go build	编译当前包，生成可执行文件
+go build -o appname	指定输出可执行文件名
+go install	构建并安装到 $GOBIN 路径下（CLI 工具常用）
+
+模块管理（Go Modules）
+go mod init 模块名	初始化 go.mod（开启 Go Modules）
+go mod tidy	整理依赖，自动添加/删除 go.mod 和 go.sum 中的模块
+go mod download	下载所有模块依赖
+go mod verify	校验 go.sum 中的哈希值，防止被篡改
+go mod graph	查看模块依赖图
+go mod why 包名	解释为什么这个依赖存在
+
+依赖管理
+go get 包路径	获取远程依赖包（Go 1.16+ 通常不推荐用它来更新版本）
+go get 包@版本	安装指定版本，比如 go get github.com/gin-gonic/gin@v1.9.1
+go list -m all	列出当前项目所有依赖模块
+go list -m -u all	检查所有模块是否有更新版本
+
+测试
+go test	执行当前包的测试函数（_test.go 文件）
+go test -v	显示详细测试信息
+go test ./...	测试当前模块下所有包
+go test -cover	显示代码覆盖率
+go bench	性能测试（基准测试）
+
+工具和诊断
+go fmt ./...	格式化所有代码（gofmt 简写）
+go vet	静态分析找潜在 bug
+go doc 包/函数	查看函数/类型文档，例如 go doc fmt.Println
+go env	显示 Go 环境变量
+go version	显示当前 Go 版本
+go clean -modcache	清空 module 缓存
+
+文件go.mod                                             // 依赖列表和版本约束
+文件go.sum                                             // 记录module文件hash值，用于安全校验
 
 /*******************************************************************************
 * ENV
@@ -35,16 +56,6 @@ GOARCH                                                // 编译arch
 GO111MODULE                                           // gomod开关
 GOPROXY                                               // go代理 https://goproxy.io  https://goproxy.cn
 GOSSAFUNC                                             // 生成SSA.html文件，展示代码优化的每一步 GOSSAFUNC=func_name go build
-
-/*******************************************************************************
- * Module
- *******************************************************************************/
-go mod init                                           // 初始化当前文件夹，创建go.mod文件
-go mod download                                       // 下载依赖的module到本地
-go mod tidy                                           // 增加缺少的module，删除无用的module
-go mod vendor 					                              // 将依赖复制到vendor下
-文件go.mod                                             // 依赖列表和版本约束
-文件go.sum                                             // 记录module文件hash值，用于安全校验
 
 
 /*******************************************************************************
